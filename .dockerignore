@@ -17,3 +17,5 @@ docker/**/Dockerfile
 .vscode
 cypress
 test-workflows
+docker/images
+tests

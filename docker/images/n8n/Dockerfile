@@ -35,16 +35,15 @@ FROM node:18-alpine AS final
 
 WORKDIR /app
 
-# Install runtime deps
+# Install only runtime dependencies
 RUN apk add --no-cache dumb-init
 
-# Copy only the built code & prod deps
 COPY --from=build-cli /app/packages/cli /app/packages/cli
 COPY --from=build-ui /app/packages/editor-ui /app/packages/editor-ui
-COPY --from=base /app/node_modules /app/node_modules
-COPY --from=base /app/packages /app/packages
-COPY --from=base /app/.n8n /app/.n8n
 COPY --from=base /app/package.json /app/package.json
+
+# Only copy required node_modules
+COPY --from=base /app/node_modules /app/node_modules
 
 ENV NODE_ENV=production
 EXPOSE 5678
